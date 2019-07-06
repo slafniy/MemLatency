@@ -1,18 +1,15 @@
+#include "pch.h"
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#include "util.h"
-#include "version.h"
 #include "main.h"
 #include <Windows.h>
 #include <type_traits>
 #include <chrono>
 #include <string>
-
-#include "pch.h"
 
 #define BLOCKSIZE        2048
 #ifndef MAXREPEATS
