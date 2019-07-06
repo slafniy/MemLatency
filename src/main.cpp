@@ -1,11 +1,9 @@
-#include "pch.h"
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#include "main.h"
 #include <Windows.h>
 #include <type_traits>
 #include <chrono>
@@ -236,7 +234,7 @@ int latency_bench(int size, int count)
             }
          }
       }
-      printf("%10d : %6.1f ns          /  %6.1f ns \n", (1 << nbits), min_t / count, min_t2 / count);
+      printf("%6.1f %6.1f\n", min_t / count, min_t2 / count);
    }
    free(buffer_alloc);
    return 1;
