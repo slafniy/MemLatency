@@ -5,7 +5,6 @@
 #include <math.h>
 
 #include "util.h"
-#include "asm-opt.h"
 #include "version.h"
 #include "main.h"
 #include <Windows.h>
@@ -37,30 +36,6 @@ void memset_wrapper(int64_t *dst, int64_t *src, int size)
    memset(dst, src[0], size);
 }
 
-static bench_info c_benchmarks[] =
-{
-    { "C copy backwards", 0, aligned_block_copy_backwards },
-    { "C copy backwards (32 byte blocks)", 0, aligned_block_copy_backwards_bs32 },
-    { "C copy backwards (64 byte blocks)", 0, aligned_block_copy_backwards_bs64 },
-    { "C copy", 0, aligned_block_copy },
-    { "C copy prefetched (32 bytes step)", 0, aligned_block_copy_pf32 },
-    { "C copy prefetched (64 bytes step)", 0, aligned_block_copy_pf64 },
-    { "C 2-pass copy", 1, aligned_block_copy },
-    { "C 2-pass copy prefetched (32 bytes step)", 1, aligned_block_copy_pf32 },
-    { "C 2-pass copy prefetched (64 bytes step)", 1, aligned_block_copy_pf64 },
-    { "C fill", 0, aligned_block_fill },
-    { "C fill (shuffle within 16 byte blocks)", 0, aligned_block_fill_shuffle16 },
-    { "C fill (shuffle within 32 byte blocks)", 0, aligned_block_fill_shuffle32 },
-    { "C fill (shuffle within 64 byte blocks)", 0, aligned_block_fill_shuffle64 },
-    { NULL, 0, NULL }
-};
-
-static bench_info libc_benchmarks[] =
-{
-    { "standard memcpy", 0, memcpy_wrapper },
-    { "standard memset", 0, memset_wrapper },
-    { NULL, 0, NULL }
-};
 
 static void random_read_test(char *zerobuffer, int count, int nbits)
 {

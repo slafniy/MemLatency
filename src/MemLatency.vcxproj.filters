@@ -18,19 +18,10 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="aarch64-asm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="asm-opt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x86-sse2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
@@ -47,16 +38,5 @@
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="asm-opt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="aarch64-asm.S">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="x86-sse2.S">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
