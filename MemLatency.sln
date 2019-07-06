@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MemLatency", "MemLatency\MemLatency.vcxproj", "{401A37B4-9D52-46E0-B76A-818D7CA2C59F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MemLatency", "src\MemLatency.vcxproj", "{401A37B4-9D52-46E0-B76A-818D7CA2C59F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

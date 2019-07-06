@@ -11,10 +11,10 @@
 #include <Windows.h>
 #include <type_traits>
 #include <chrono>
+#include <string>
 
 #include "pch.h"
 
-#define SIZE             (32 * 1024 * 1024)
 #define BLOCKSIZE        2048
 #ifndef MAXREPEATS
 # define MAXREPEATS      10
@@ -171,8 +171,6 @@ int latency_bench(int size, int count)
    int nbits, n;
    char *buffer, *buffer_alloc;
 
-
-
    buffer_alloc = (char *)malloc(size + 4095);
    if (!buffer_alloc)
       return 0;
@@ -186,19 +184,26 @@ int latency_bench(int size, int count)
       random_read_test(buffer, count, 1);
       t_after = getNsSinceEpoch();
       if (n == 1 || t_after - t_before < t_noaccess)
+      {
          t_noaccess = t_after - t_before;
+      }
 
       t_before = getNsSinceEpoch();
       random_dual_read_test(buffer, count, 1);
       t_after = getNsSinceEpoch();
       if (n == 1 || t_after - t_before < t_noaccess2)
+      {
          t_noaccess2 = t_after - t_before;
+      }
    }
-
-   printf("\nblock size : single random read / dual random read\n");
 
    for (nbits = 10; (1 << nbits) <= size; nbits++)
    {
+      if (1 << nbits < size)
+      {
+         continue;  // dirty quick hack
+      }
+
       int testsize = 1 << nbits;
       xs1 = xs2 = ys = ys1 = ys2 = 0;
       for (n = 1; n <= MAXREPEATS; n++)
@@ -216,32 +221,47 @@ int latency_bench(int size, int count)
          random_read_test(buffer + testoffs, count, nbits);
          t_after = getNsSinceEpoch();
          t = t_after - t_before - t_noaccess;
-         if (t < 0) t = 0;
+         
+         if (t < 0) 
+         { 
+            t = 0; 
+         }
 
          xs1 += t;
          xs2 += t * t;
 
          if (n == 1 || t < min_t)
+         {
             min_t = t;
+         }
 
          t_before = getNsSinceEpoch();
          random_dual_read_test(buffer + testoffs, count, nbits);
          t_after = getNsSinceEpoch();
          t2 = t_after - t_before - t_noaccess2;
-         if (t2 < 0) t2 = 0;
+         
+         if (t2 < 0) 
+         { 
+            t2 = 0; 
+         }
 
          ys1 += t2;
          ys2 += t2 * t2;
 
          if (n == 1 || t2 < min_t2)
+         {
             min_t2 = t2;
+         }
 
          if (n > 2)
          {
             xs = sqrt((xs2 * n - xs1 * xs1) / (n * (n - 1)));
             ys = sqrt((ys2 * n - ys1 * ys1) / (n * (n - 1)));
+            
             if (xs < min_t / 1000. && ys < min_t2 / 1000.)
+            {
                break;
+            }
          }
       }
       printf("%10d : %6.1f ns          /  %6.1f ns \n", (1 << nbits), min_t / count, min_t2 / count);
@@ -251,16 +271,15 @@ int latency_bench(int size, int count)
 }
 
 
-int main(void)
+int main(int argc, char* argv[])
 {
+   if (argc != 2)
+   {
+      printf("Unexpected number of arguments: %d, one (block size in megabytes) expected", argc);
+      return -1;
+   }
 
-   int latbench_size = SIZE * 2, latbench_count = LATBENCH_COUNT;
-   int64_t *srcbuf, *dstbuf, *tmpbuf;
-   void *poolbuf;
-   size_t bufsize = SIZE;
-
-   printf("\n");
-   printf("== Memory latency test ==\n");
+   int latbench_size = std::stoi(argv[1]) * 1024 * 1024, latbench_count = LATBENCH_COUNT;
 
    latency_bench(latbench_size, latbench_count);
 
